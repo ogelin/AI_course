@@ -1,1 +1,1 @@
-# INF8225-TP2
+# AI_course

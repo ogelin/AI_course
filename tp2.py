@@ -1,18 +1,14 @@
-import torch
-import numpy as np
-from torch.autograd import Variable
 import matplotlib.pyplot as plt
+import numpy as np
 import torch
-from torch.autograd import Variable
-import torchvision
 import torch.nn.functional as F
-from fashion import FashionMNIST
 import torchvision.transforms as transforms
 from torch import nn
 from torch import optim
-from secret_model import SecretModel
+from torch.autograd import Variable
 
-
+from AI_course.fashion import FashionMNIST
+from AI_course.secret_model import SecretModel
 
 #####################################
 #     PREPARATION DES DONNEES       #
@@ -86,7 +82,7 @@ class FcNetwork(nn.Module):
 def train(model, train_loader, optimizer):
     model.train()
     for batch_idx, (data, target) in enumerate(train_loader):
-        data, target = Variable(data), Variable(target)
+        data, target = Variable(data).cuda(), Variable(target).cuda()
         optimizer.zero_grad()
         output = model(data)  # calls the forward function
         loss = F.nll_loss(output, target)
@@ -100,7 +96,7 @@ def valid(model, valid_loader):
     valid_loss = 0
     correct = 0
     for data, target in valid_loader:
-        data, target = Variable(data, volatile=True), Variable(target)
+        data, target = Variable(data, volatile=True).cuda(), Variable(target).cuda()
         output = model(data)
         valid_loss += F.nll_loss(output, target, size_average=False).data[0]  # sum up batch loss
         pred = output.data.max(1, keepdim=True)[1]  # get the index of the max log-probability
@@ -151,7 +147,7 @@ def experiment(model, epochs=10, lr=0.001):
 # A REGARDER
 best_precision = 0
 for model in [FcNetwork(), SecretModel()]:
-    # model.cuda()
+    model = model.cuda()
     model, precision = experiment(model)
     if precision > best_precision:
         best_precision = precision

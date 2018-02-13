@@ -8,7 +8,7 @@ from torch import optim
 from torch.autograd import Variable
 
 from fashion import FashionMNIST
-from secret_model import OneLayerModel, NLayerSigmoidModel
+from secret_model import OneLayerModel, NLayerSigmoidModel, NLayerTanhModel, DecreasingNeuronModelSoftplus3Layer
 
 #####################################
 #     PREPARATION DES DONNEES       #
@@ -82,7 +82,7 @@ class FcNetwork(nn.Module):
 def train(model, train_loader, optimizer):
     model.train()
     for batch_idx, (data, target) in enumerate(train_loader):
-        data, target = Variable(data).cuda(), Variable(target).cuda()
+        data, target = Variable(data), Variable(target)
         optimizer.zero_grad()
         output = model(data)  # calls the forward function
         loss = F.nll_loss(output, target)
@@ -96,7 +96,7 @@ def valid(model, valid_loader):
     valid_loss = 0
     correct = 0
     for data, target in valid_loader:
-        data, target = Variable(data, volatile=True).cuda(), Variable(target).cuda()
+        data, target = Variable(data, volatile=True), Variable(target)
         output = model(data)
         valid_loss += F.nll_loss(output, target, size_average=False).data[0]  # sum up batch loss
         pred = output.data.max(1, keepdim=True)[1]  # get the index of the max log-probability
@@ -114,7 +114,7 @@ def test(model, test_loader):
     test_loss = 0
     correct = 0
     for data, target in test_loader:
-        data, target = Variable(data, volatile=True).cuda(), Variable(target).cuda()
+        data, target = Variable(data, volatile=True), Variable(target)
         output = model(data)
         test_loss += F.nll_loss(output, target, size_average=False).data[0]  # sum up batch loss
         pred = output.data.max(1, keepdim=True)[1]  # get the index of the max log-probability
@@ -155,12 +155,13 @@ def experiment(model, epochs=10, lr=0.001):  #lr initial : 0.001
 # A REGARDER
 best_precision = 0
 nNeurones = 512
-for model in [NLayerSigmoidModel(nNeurones,10)]:
+for model in [DecreasingNeuronModelSoftplus3Layer()]:
     print('\n' + "DEBUT DES TEST POUR LE MODEL:")
-    model = model.cuda()
+    model = model
     model, precision = experiment(model, 100, 0.001)
     if precision > best_precision:
         best_precision = precision
         best_model = model
 
 test(best_model, test_loader)
+

@@ -1,5 +1,5 @@
-1. LR variant
+X LR variant
 1. Limiter nombre de neurones à chaque layer 
-2. Essayer autres fonctions, ie. sigmoid, tanh, softplus, rectify 
+X Essayer autres fonctions, ie. sigmoid, tanh, softplus, rectify 
 3. Essayer de combiner différentes fonctions sur différentes couches
-4. Réseau de neurones convolutionnel 
+4. Réseau de neurones convolutionnel ?

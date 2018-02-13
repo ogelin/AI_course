@@ -8,7 +8,7 @@ from torch import optim
 from torch.autograd import Variable
 
 from fashion import FashionMNIST
-from secret_model import OneLayerModel, NLayerSigmoidModel
+from secret_model import OneLayerModel, NLayerSigmoidModel, NLayerSoftplusModel, NLayerTanhModel, NLayerRectifyModel, TwoLayerRectSoftplusModel, TwoLayerSoftplusRectModel
 
 #####################################
 #     PREPARATION DES DONNEES       #
@@ -155,10 +155,10 @@ def experiment(model, epochs=10, lr=0.001):  #lr initial : 0.001
 # A REGARDER
 best_precision = 0
 nNeurones = 512
-for model in [NLayerSigmoidModel(nNeurones,10)]:
+for model in [TwoLayerRectSoftplusModel(nNeurones, 2), TwoLayerSoftplusRectModel(nNeurones, 2)]:
     print('\n' + "DEBUT DES TEST POUR LE MODEL:")
     model = model.cuda()
-    model, precision = experiment(model, 100, 0.001)
+    model, precision = experiment(model, 20, 0.001)
     if precision > best_precision:
         best_precision = precision
         best_model = model

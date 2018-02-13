@@ -1,3 +1,8 @@
+//TODO Changer les calculs pour une forme matricielle vectorielle 
+//TODO Mettre en plus de détail comment effectuer le calcul des gradients de chaque layer (chain rule)
+
+
+
 //Soit un réseau qui contient M couches 
 
 RÉPÉTER: 

@@ -7,8 +7,8 @@ from torch import nn
 from torch import optim
 from torch.autograd import Variable
 
-from AI_course.fashion import FashionMNIST
-from AI_course.secret_model import SecretModel
+from fashion import FashionMNIST
+from secret_model import SecretModel
 
 #####################################
 #     PREPARATION DES DONNEES       #
@@ -82,7 +82,7 @@ class FcNetwork(nn.Module):
 def train(model, train_loader, optimizer):
     model.train()
     for batch_idx, (data, target) in enumerate(train_loader):
-        data, target = Variable(data).cuda(), Variable(target).cuda()
+        data, target = Variable(data), Variable(target)
         optimizer.zero_grad()
         output = model(data)  # calls the forward function
         loss = F.nll_loss(output, target)
@@ -96,7 +96,7 @@ def valid(model, valid_loader):
     valid_loss = 0
     correct = 0
     for data, target in valid_loader:
-        data, target = Variable(data, volatile=True).cuda(), Variable(target).cuda()
+        data, target = Variable(data, volatile=True), Variable(target)
         output = model(data)
         valid_loss += F.nll_loss(output, target, size_average=False).data[0]  # sum up batch loss
         pred = output.data.max(1, keepdim=True)[1]  # get the index of the max log-probability
@@ -114,7 +114,7 @@ def test(model, test_loader):
     test_loss = 0
     correct = 0
     for data, target in test_loader:
-        data, target = Variable(data, volatile=True).cuda(), Variable(target).cuda()
+        data, target = Variable(data, volatile=True), Variable(target)
         output = model(data)
         test_loss += F.nll_loss(output, target, size_average=False).data[0]  # sum up batch loss
         pred = output.data.max(1, keepdim=True)[1]  # get the index of the max log-probability
@@ -147,7 +147,7 @@ def experiment(model, epochs=10, lr=0.001):
 # A REGARDER
 best_precision = 0
 for model in [FcNetwork(), SecretModel()]:
-    model = model.cuda()
+    #model = model.cuda()
     model, precision = experiment(model)
     if precision > best_precision:
         best_precision = precision

@@ -8,7 +8,7 @@ from torch import optim
 from torch.autograd import Variable
 
 from fashion import FashionMNIST
-from secret_model import SecretModel
+from secret_model import OneLayerModel, NLayerSigmoidModel
 
 #####################################
 #     PREPARATION DES DONNEES       #
@@ -54,8 +54,8 @@ test_loader = torch.utils.data.DataLoader(test_data,batch_size=test_batch_size, 
 
 
 # Pour afficher une image du train_data.
-plt.imshow(train_loader.dataset.train_data[1].numpy())
-plt.imshow(train_loader.dataset.train_data[10].numpy())
+#plt.imshow(train_loader.dataset.train_data[1].numpy())
+#plt.imshow(train_loader.dataset.train_data[10].numpy())
 
 
 
@@ -103,7 +103,7 @@ def valid(model, valid_loader):
         correct += pred.eq(target.data.view_as(pred)).cpu().sum()
 
     valid_loss /= len(valid_loader.dataset)
-    print('\n' + "valid" + ' set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
+    print("valid" + ' set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)'.format(
         valid_loss, correct, len(valid_loader.dataset),
         100. * correct / len(valid_loader.dataset)))
     return correct / len(valid_loader.dataset)
@@ -121,21 +121,29 @@ def test(model, test_loader):
         correct += pred.eq(target.data.view_as(pred)).cpu().sum()
 
     test_loss /= len(test_loader.dataset)
-    print('\n' + "test" + ' set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
+    print("test" + ' set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)'.format(
         test_loss, correct, len(test_loader.dataset),
         100. * correct / len(test_loader.dataset)))
 
 
-def experiment(model, epochs=10, lr=0.001):
+def experiment(model, epochs=10, lr=0.001):  #lr initial : 0.001
     best_precision = 0
     optimizer = optim.Adam(model.parameters(), lr=lr)
+    precisions = []
     for epoch in range(1, epochs + 1):
         model = train(model, train_loader, optimizer)
         precision = valid(model, valid_loader)
-
+        precisions.append(precision)
         if precision > best_precision:
             best_precision = precision
             best_model = model
+
+    #plt.plot(precisions, label="valid")
+    #plt.xlabel("Epoch")
+    #plt.ylabel("Precision")
+    #plt.legend()
+    #plt.show()
+
     return best_model, best_precision
 
 
@@ -146,10 +154,11 @@ def experiment(model, epochs=10, lr=0.001):
 
 # A REGARDER
 best_precision = 0
-for model in [FcNetwork(), SecretModel()]:
-    print("DEBUT DES TEST POUR LE MODEL")
+nNeurones = 512
+for model in [NLayerSigmoidModel(nNeurones,10)]:
+    print('\n' + "DEBUT DES TEST POUR LE MODEL:")
     model = model.cuda()
-    model, precision = experiment(model)
+    model, precision = experiment(model, 100, 0.001)
     if precision > best_precision:
         best_precision = precision
         best_model = model

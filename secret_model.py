@@ -1,15 +1,34 @@
 import torch.nn as nn
 import torch.nn.functional as F
 
-class SecretModel(nn.Module):
-    def __init__(self):
+class OneLayerModel(nn.Module):
+    def __init__(self, nNeurones):
         super().__init__()
-        self.fc1 = nn.Linear(28 * 28, 2000)
-        self.fc4 = nn.Linear(2000, 10)
+        self.fc1 = nn.Linear(28 * 28, nNeurones)
+        self.fc2 = nn.Linear(nNeurones, 10)
 
     def forward(self, image):
         batch_size = image.size()[0]
         x = image.view(batch_size, -1)
         x = F.sigmoid(self.fc1(x))
-        x = F.log_softmax(self.fc4(x), dim=1)
+        x = F.log_softmax(self.fc2(x), dim=1)
+        return x
+
+
+
+class NLayerSigmoidModel(nn.Module):
+    def __init__(self, nNeurones, nLayer):
+        super().__init__()
+        self.nLayer = nLayer
+        self.fc1 = nn.Linear(28 * 28, nNeurones)
+        self.fcX = nn.Linear(nNeurones, nNeurones)
+        self.fc2 = nn.Linear(nNeurones, 10)
+
+    def forward(self, image):
+        batch_size = image.size()[0]
+        x = image.view(batch_size, -1)
+        x = F.sigmoid(self.fc1(x))
+        for i in range(0, self.nLayer-1):
+            x = F.sigmoid(self.fcX(x))
+        x = F.log_softmax(self.fc2(x), dim=1)
         return x

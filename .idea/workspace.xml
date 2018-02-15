@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f8525bd6-bbfd-487f-b8f2-ab3e6f5083f0" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/ideas.txt" afterPath="$PROJECT_DIR$/ideas.txt" />
-      <change beforePath="$PROJECT_DIR$/question2.py" afterPath="$PROJECT_DIR$/question2.py" />
-      <change beforePath="$PROJECT_DIR$/secret_model.py" afterPath="$PROJECT_DIR$/secret_model.py" />
-    </list>
+    <list default="true" id="f8525bd6-bbfd-487f-b8f2-ab3e6f5083f0" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,11 +11,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="question2.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="question2.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/question2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="213">
-              <caret line="157" column="49" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="167" selection-end-column="0" />
+            <state relative-caret-position="281">
+              <caret line="160" column="51" lean-forward="false" selection-start-line="160" selection-start-column="48" selection-end-line="160" selection-end-column="51" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -27,11 +23,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="secret_model.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="secret_model.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/secret_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-641">
-              <caret line="53" column="41" lean-forward="false" selection-start-line="53" selection-start-column="6" selection-end-line="53" selection-end-column="41" />
+            <state relative-caret-position="439">
+              <caret line="113" column="0" lean-forward="true" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -213,22 +209,22 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tp2.py" />
-    <entry file="file://$PROJECT_DIR$/question2.py">
+    <entry file="file://$PROJECT_DIR$/secret_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="157" column="49" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="167" selection-end-column="0" />
+        <state relative-caret-position="439">
+          <caret line="113" column="0" lean-forward="true" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
           <folding>
-            <element signature="e#0#31#0" expanded="true" />
+            <element signature="e#0#21#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/secret_model.py">
+    <entry file="file://$PROJECT_DIR$/question2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-641">
-          <caret line="53" column="41" lean-forward="false" selection-start-line="53" selection-start-column="6" selection-end-line="53" selection-end-column="41" />
+        <state relative-caret-position="281">
+          <caret line="160" column="51" lean-forward="false" selection-start-line="160" selection-start-column="48" selection-end-line="160" selection-end-column="51" />
           <folding>
-            <element signature="e#0#21#0" expanded="true" />
+            <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>

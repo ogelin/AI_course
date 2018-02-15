@@ -79,7 +79,6 @@ class FcNetwork(nn.Module):
         return x
 
 
-# A REGARDER
 def train(model, train_loader, optimizer):
     model.train()
     for batch_idx, (data, target) in enumerate(train_loader):
@@ -130,21 +129,12 @@ def test(model, test_loader):
 def experiment(model, epochs=10, lr=0.001):  #lr initial : 0.001
     best_precision = 0
     optimizer = optim.Adam(model.parameters(), lr=lr)
-    precisions = []
     for epoch in range(1, epochs + 1):
         model = train(model, train_loader, optimizer)
         precision = valid(model, valid_loader)
-        precisions.append(precision)
         if precision > best_precision:
             best_precision = precision
             best_model = model
-
-    #plt.plot(precisions, label="valid")
-    #plt.xlabel("Epoch")
-    #plt.ylabel("Precision")
-    #plt.legend()
-    #plt.show()
-
     return best_model, best_precision
 
 
@@ -153,11 +143,11 @@ def experiment(model, epochs=10, lr=0.001):  #lr initial : 0.001
 #            EXECUTION              #
 #####################################
 
-# A REGARDER
+
 best_precision = 0
 nNeurones = 512
 
-for model in [TwoLayerRectSoftplusModel(nNeurones, 2), TwoLayerSoftplusRectModel(nNeurones, 2)]:
+for model in [NLayerSigmoidModel(nNeurones, 5)]:
     print('\n' + "DEBUT DES TEST POUR LE MODEL:")
     model = model.cuda()
     model, precision = experiment(model, 20, 0.001)

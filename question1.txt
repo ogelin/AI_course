@@ -1,29 +1,27 @@
-//TODO Changer les calculs pour une forme matricielle vectorielle 
-//TODO Mettre en plus de détail comment effectuer le calcul des gradients de chaque layer (chain rule)
+// Où X = [X_1, X_2, ... X_n, 1]
+// W est une matrice de poids avec une colonne ajoutée à la fin pour représenter les biais 
+// W_l représente donc la matrice de poids associée à chaque L layer 
+// Il y a L layers et la couche de sortie est L+1
+// alpha est le taux d'apprentissage
+// in_l est la préactiviation du layer l 
+// A_l est l'activation du layer l 
+// le réseau contient L couches cachées
 
 
+		A_l-1 <- X // l'entrée est chargée dans le vecteur A d'entrée
 
-//Soit un réseau qui contient M couches 
+		POUR l=1 à L+1 FAIRE
+			
+			in_l <- (W_l)(A_l-1)
+			A_l <- 1 / (1 + exp(-in_l))
 
-RÉPÉTER: 
 
-	POUR CHAQUE exemple FAIRE
+		// Soit Y la sortie désirée pour et A la sortie obtenue 
 
-		POUR CHAQUE noeud j de la couche d'entrée du réseau FAIRE 
-			a_j_ <- item j dans le vecteur d'entrée de l'exemple
+		delta <- ((1 / (1 + exp(-in_L+1)))*( 1 - 1 / (1 + exp(-in_L+1))))  * (Y-A_L+1)
 
-		POUR l=2 à M FAIRE
-			in_i_ <- Sum_j_ (W_j,i_ * a_j_)
-			a_i_ <- g(in_i_)
+		POUR l=L à 1 FAIRE
 
-		POUR CHAQUE noeud i de la couche sortie FAIRE
-			// Soit y_i_ la sortie désirée pour le noeud i et a_i_ la sortie obtenue 
-			delta_i_ <- g'(in_i_) * (y_i_ - a_i_)
+			delta_l <-((1 / (1 + exp(-in_l)))*( 1 - 1 / (1 + exp(-in_l)))) * (W_l)(delta)
+			W_l <- W_l+ (alpha)(A_l)(delta_l+1)
 
-		POUR l=M-1 à 1 FAIRE
-			POUR CHAQUE noeud j de la couche l FAIRE 
-				delta_j_ <- g'(in_j_) * Sum_i_ (W_j,i_ * delta_i_)
-				POUR CHAQUE noeud i de la couche l+1 FAIRE 
-					W_j,i_ <- W_j,i_ + alpha * a_j_ * delta_i_ 
-
-JUSQU'À ce que le critère d'arrêt soit satisfait	

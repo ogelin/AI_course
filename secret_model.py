@@ -119,4 +119,18 @@ class TwoLayerSoftplusRectModel(nn.Module):
         return x
 
 # Conv
+class ConvoModel(nn.Module):
+    def __init__(self, nChannel, kernel_size):
+        super(ConvoModel, self).__init__()
+        self.conv1 = nn.Conv2d(1, nChannel, kernel_size)
+        self.conv2 = nn.Conv2d(nChannel, nChannel, kernel_size)
+        self.mp = nn.MaxPool2d(2)
+        self.fc1 = nn.Linear(2500, 10)
 
+    def forward(self, x):
+        in_size = x.size(0)
+        x = F.relu(self.mp(self.conv1(x)))
+        x = F.relu(self.mp(self.conv2(x)))
+        x = x.view(in_size, -1)
+        x = F.log_softmax(self.fc1(x), dim=1)
+        return x

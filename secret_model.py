@@ -15,7 +15,6 @@ class OneLayerModel(nn.Module):
         return x
 
 
-
 class NLayerSigmoidModel(nn.Module):
     def __init__(self, nNeurones, nLayer):
         super().__init__()
@@ -118,7 +117,6 @@ class TwoLayerSoftplusRectModel(nn.Module):
         x = F.log_softmax(self.fc2(x), dim=1)
         return x
 
-# Conv
 class ConvoModel(nn.Module):
     def __init__(self, nChannel, kernel_size):
         super(ConvoModel, self).__init__()

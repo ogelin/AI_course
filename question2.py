@@ -39,7 +39,6 @@ train_data.train_data = train_data.train_data[train_idx, :]
 train_data.train_labels = train_data.train_labels[torch.from_numpy(train_idx).type(torch.LongTensor)]
 
 # Maintenant, allons chercher 6000 images (10%) qui seront utilise pour le validation set.
-# Pourquoi est-ce qu'on va chercher les images sur le valid_data et non sur le train_data ?
 mask = np.ones(60000)
 mask[train_idx] = 0
 valid_data.train_data = valid_data.train_data[torch.from_numpy(np.argwhere(mask)), :].squeeze()
@@ -63,8 +62,6 @@ test_loader = torch.utils.data.DataLoader(test_data,batch_size=test_batch_size, 
 #####################################
 #            FONCTIONS              #
 #####################################
-# A REGARDER
-#Ici, FcNetwork derive de nn.Module
 class FcNetwork(nn.Module):
     def __init__(self):
         super().__init__()
@@ -126,7 +123,7 @@ def test(model, test_loader):
         100. * correct / len(test_loader.dataset)))
 
 
-def experiment(model, epochs=10, lr=0.001):  #lr initial : 0.001
+def experiment(model, epochs=10, lr=0.001):
     best_precision = 0
     optimizer = optim.Adam(model.parameters(), lr=lr)
     for epoch in range(1, epochs + 1):
@@ -143,10 +140,7 @@ def experiment(model, epochs=10, lr=0.001):  #lr initial : 0.001
 #            EXECUTION              #
 #####################################
 
-
 best_precision = 0
-nNeurones = 512
-
 for model in [ConvoModel(100, 3)]:
     print('\n' + "DEBUT DES TEST POUR LE MODEL:")
     model = model

@@ -8,6 +8,7 @@ import gym
 from torch.autograd import Variable
 import random
 from collections import namedtuple
+import matplotlib.pyplot as plt
 #from my_model import myAgent
 
 #2 DQN.ipynb
@@ -66,14 +67,22 @@ class myAgent(object):
 
     def backward(self, transitions):
         batch = Transition(*zip(*transitions))
+
         batch_state = Variable(torch.cat(batch.state))
         batch_action = Variable(torch.cat(batch.action))
         batch_reward = Variable(torch.cat(batch.reward))
         batch_next_state = Variable(torch.cat(batch.next_state))
-        current_q_values = self.Q(batch_state).gather(1, batch_action)
+
+        current_state = self.Q(batch_state)
+        current_q_values = current_state.gather(1, batch_action.view(-1,1))
+
         max_next_q_values = self.Q(batch_next_state).detach().max(1)[0]
         expected_q_values = batch_reward + (self.gamma * max_next_q_values)
+
         loss = F.smooth_l1_loss(current_q_values, expected_q_values)
+
+        soft_update(self.target_Q, self.Q, self.gamma)
+
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
@@ -142,3 +151,4 @@ for i in range(5000):
 
 #11 DQN.ipynb
 pd.DataFrame(rewards).rolling(50, center=False).mean().plot()
+plt.show()

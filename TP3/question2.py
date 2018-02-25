@@ -24,8 +24,6 @@ class DQN(nn.Module):
         q = self.fc3(x)
         return q
 
-
-
 #3 DQN.ipynb
 # from https://github.com/ghliu/pytorch-ddpg/blob/master/util.py
 def soft_update(target, source, tau):
@@ -68,6 +66,17 @@ class myAgent(object):
 
     def backward(self, transitions):
         batch = Transition(*zip(*transitions))
+        batch_state = Variable(torch.cat(batch.state))
+        batch_action = Variable(torch.cat(batch.action))
+        batch_reward = Variable(torch.cat(batch.reward))
+        batch_next_state = Variable(torch.cat(batch.next_state))
+        current_q_values = self.Q(batch_state).gather(1, batch_action)
+        max_next_q_values = self.Q(batch_next_state).detach().max(1)[0]
+        expected_q_values = batch_reward + (self.gamma * max_next_q_values)
+        loss = F.smooth_l1_loss(current_q_values, expected_q_values)
+        self.optimizer.zero_grad()
+        loss.backward()
+        self.optimizer.step()
         # TODO
         # fonctions utiles: torch.gather(), torch.detach()
         # torch.nn.functional.smooth_l1_loss()
@@ -117,7 +126,7 @@ for i in range(5000):
         epsilon = max(epsilon, 0.1)
         obs_input = Variable(torch.from_numpy(obs).type(torch.FloatTensor))
         action = agent.act(obs_input, epsilon)
-        env.render() #Pour visualiser les mouvement a l'écran.
+        #env.render() #Pour visualiser les mouvement a l'écran.
         next_obs, reward, done, _ = env.step(action.data.numpy()[0])
         memory.push(obs_input.data.view(1,-1), action.data,
                     torch.from_numpy(next_obs).type(torch.FloatTensor).view(1,-1), torch.Tensor([reward]),torch.Tensor([done]))

@@ -37,8 +37,6 @@ def hard_update(target, source):
     for target_param, param in zip(target.parameters(), source.parameters()):
         target_param.data.copy_(param.data)
 
-
-
 #4 DQN.ipynb
 class myAgent(object):
     def __init__(self, gamma=0.99, batch_size=128):
@@ -52,10 +50,9 @@ class myAgent(object):
         self.optimizer = torch.optim.Adam(self.Q.parameters(), lr=0.001)
 
     def act(self, x, epsilon=0.1):
-        # TODO
         # if else avec epsilon qui est prob de choisir un action au hasard
         decision = random.random()
-        if decision > epsilon:
+        if decision < epsilon:
             q = self.Q(x).type(torch.FloatTensor)
             qData = q.data
             qMax = qData.max(0)[1] # l'indice est en [1]
@@ -73,23 +70,22 @@ class myAgent(object):
         batch_reward = Variable(torch.cat(batch.reward))
         batch_next_state = Variable(torch.cat(batch.next_state))
 
-        current_state = self.Q(batch_state)
-        current_q_values = current_state.gather(1, batch_action.view(-1,1))
+        current_actions = self.Q(batch_state)
+        current_q_values = current_actions.gather(1, batch_action.view(-1, 1))
 
-        max_next_q_values = self.Q(batch_next_state).detach().max(1)[0]
-        expected_q_values = batch_reward + (self.gamma * max_next_q_values)
+        max_next_q_values = self.target_Q(batch_next_state).detach().max(1)[0]
+        expected_q_values = (batch_reward + (self.gamma * max_next_q_values)).view(-1,1)
 
-        loss = F.smooth_l1_loss(current_q_values, expected_q_values)
+        assert current_q_values.shape == expected_q_values.shape # les deux matrices doivent être de la même taille pour que ça marche
+
+        loss = F.mse_loss(current_q_values, expected_q_values)
 
         soft_update(self.target_Q, self.Q, self.gamma)
 
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
-        # TODO
-        # fonctions utiles: torch.gather(), torch.detach()
-        # torch.nn.functional.smooth_l1_loss()
-        pass
+
 
 
 #5 DQN.ipynb
@@ -136,6 +132,7 @@ for i in range(5000):
         obs_input = Variable(torch.from_numpy(obs).type(torch.FloatTensor))
         action = agent.act(obs_input, epsilon)
         #env.render() #Pour visualiser les mouvement a l'écran.
+        tmp = action.data.numpy()
         next_obs, reward, done, _ = env.step(action.data.numpy()[0])
         memory.push(obs_input.data.view(1,-1), action.data,
                     torch.from_numpy(next_obs).type(torch.FloatTensor).view(1,-1), torch.Tensor([reward]),torch.Tensor([done]))

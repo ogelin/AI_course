@@ -61,30 +61,21 @@ class myAgent(object):
         else:
             return Variable(torch.LongTensor([random.randrange(2)]))
 
-
     def backward(self, transitions):
         batch = Transition(*zip(*transitions))
+        non_final_mask = torch.ByteTensor(tuple(map(lambda s: s is not None,
+                                                    batch.next_state)))
+        non_final_next_states = Variable(torch.cat([s for s in batch.next_state
+                                                    if s is not None]),
+                                         volatile=True)
+        state_batch = Variable(torch.cat(batch.state))
+        action_batch = Variable(torch.cat(batch.action))
+        reward_batch = Variable(torch.cat(batch.reward))
 
-        batch_state = Variable(torch.cat(batch.state))
-        batch_action = Variable(torch.cat(batch.action))
-        batch_reward = Variable(torch.cat(batch.reward))
-        batch_next_state = Variable(torch.cat(batch.next_state))
+        state_action_values = self.Q(state_batch).gather(1, action_batch.view(-1,1))
 
-        current_actions = self.Q(batch_state)
-        current_q_values = current_actions.gather(1, batch_action.view(-1, 1))
-
-        max_next_q_values = self.target_Q(batch_next_state).detach().max(1)[0]
-        expected_q_values = (batch_reward + (self.gamma * max_next_q_values)).view(-1,1)
-
-        assert current_q_values.shape == expected_q_values.shape # les deux matrices doivent être de la même taille pour que ça marche
-
-        loss = F.mse_loss(current_q_values, expected_q_values)
-
-        soft_update(self.target_Q, self.Q, self.gamma)
-
-        self.optimizer.zero_grad()
-        loss.backward()
-        self.optimizer.step()
+        next_state_values = Variable(torch.zeros(128).type(torch.Tensor))
+        next_state_values[non_final_mask] = self.Q(non_final_next_states).max(0)[1]
 
 
 
@@ -145,7 +136,5 @@ for i in range(5000):
         batch = memory.sample(batch_size)
         agent.backward(batch)
 
-
-#11 DQN.ipynb
 pd.DataFrame(rewards).rolling(50, center=False).mean().plot()
 plt.show()

@@ -75,8 +75,18 @@ class myAgent(object):
         state_action_values = self.Q(state_batch).gather(1, action_batch.view(-1,1))
 
         next_state_values = Variable(torch.zeros(128).type(torch.Tensor))
-        next_state_values[non_final_mask] = self.Q(non_final_next_states).max(0)[1]
+        next_state_values[non_final_mask] = self.Q(non_final_next_states).max(1)[0]
 
+        expected_state_action_values = (next_state_values * self.gamma) + reward_batch
+
+        # Compute Huber loss
+        loss = F.smooth_l1_loss(state_action_values, expected_state_action_values)
+
+        self.optimizer.zero_grad()
+        loss.backward()
+        for param in self.Q.parameters():
+            param.grad.data.clamp_(-1, 1)
+        self.optimizer.step()
 
 
 #5 DQN.ipynb

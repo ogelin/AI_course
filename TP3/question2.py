@@ -53,36 +53,43 @@ class myAgent(object):
         # if else avec epsilon qui est prob de choisir un action au hasard
         sample = random.random()
         if sample > epsilon:
-            maxim = self.Q(x).data.max(0)[1]
+            maxim = self.Q.forward(x).data.max(0)[1] # pick the action with highest Q-value
             return Variable(torch.LongTensor(maxim))
 
         else:
             return Variable(torch.LongTensor([random.randrange(2)]))
 
     def backward(self, transitions):
-        batch = Transition(*zip(*transitions))
+            batch = Transition(*zip(*transitions))
 
-        batch_state = Variable(torch.cat(batch.state))
-        batch_action = Variable(torch.cat(batch.action))
-        batch_reward = Variable(torch.cat(batch.reward))
-        batch_next_state = Variable(torch.cat(batch.next_state))
+            batch_state = Variable(torch.cat(batch.state))
+            batch_action = Variable(torch.cat(batch.action))
+            batch_reward = Variable(torch.cat(batch.reward))
+            print(batch_reward)
+            batch_next_state = Variable(torch.cat(batch.next_state))
+            batch_done = Variable(torch.cat(batch.done))
 
-        current_actions = self.Q(batch_state)
-        current_q_values = current_actions.gather(1, batch_action.view(-1, 1))
+            current_actions = self.Q(batch_state)
+            current_q_values = current_actions.gather(1, batch_action.view(-1, 1))
 
-        max_next_q_values = self.target_Q(batch_next_state).detach().max(1)[1]
-        expected_q_values = (batch_reward.type(torch.FloatTensor) + (self.gamma * max_next_q_values.type(torch.FloatTensor))).view(-1, 1)
+            mask = np.logical_not(batch_done.data.numpy()) * np.ones(self.batch_size)
+            mask = Variable(torch.from_numpy(mask).type(torch.FloatTensor))
 
-        assert current_q_values.shape == expected_q_values.shape  # les deux matrices doivent être de la même taille pour que ça marche
+            next_state_action_values = [self.target_Q.forward(Variable(j)).max().data for j in batch.next_state]
+            next_state_action_values = Variable(torch.cat(next_state_action_values))
 
-        loss = F.mse_loss(current_q_values, expected_q_values)
+            expected_state_action_values = next_state_action_values * self.gamma * mask + batch_reward
 
-        soft_update(self.target_Q, self.Q, self.gamma)
+            loss = F.l1_loss(current_q_values, expected_state_action_values)
 
-        self.optimizer.zero_grad()
-        loss.backward()
+            self.optimizer.zero_grad()
 
-        self.optimizer.step()
+            soft_update(self.target_Q, self.Q, 0.001)
+
+            loss.backward()
+
+            self.optimizer.step()
+
 
 
 #5 DQN.ipynb

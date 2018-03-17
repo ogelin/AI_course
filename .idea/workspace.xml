@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f8525bd6-bbfd-487f-b8f2-ab3e6f5083f0" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/TP3/question2.py" afterPath="$PROJECT_DIR$/TP3/question2.py" />
-      <change beforePath="$PROJECT_DIR$/TP3/question2c.py" afterPath="$PROJECT_DIR$/TP3/question2c.py" />
-    </list>
+    <list default="true" id="f8525bd6-bbfd-487f-b8f2-ab3e6f5083f0" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,7 +11,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="question2.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="question2.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TP3/question2.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-473">
@@ -26,11 +23,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="question2c.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="question2c.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TP3/question2c.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+            <state relative-caret-position="2484">
+              <caret line="148" column="30" lean-forward="true" selection-start-line="148" selection-start-column="30" selection-end-line="148" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -152,7 +149,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.question2 (1)">
+  <component name="RunManager" selected="Python.question2c">
     <configuration name="question2 (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -189,6 +186,24 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
+    <configuration name="question2c" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/TP3" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="AI_course" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TP3/question2c.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
     <configuration name="tp2" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -207,16 +222,18 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
-    <list size="3">
+    <list size="4">
       <item index="0" class="java.lang.String" itemvalue="Python.tp2" />
       <item index="1" class="java.lang.String" itemvalue="Python.question2" />
       <item index="2" class="java.lang.String" itemvalue="Python.question2 (1)" />
+      <item index="3" class="java.lang.String" itemvalue="Python.question2c" />
     </list>
     <recent_temporary>
-      <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="Python.question2 (1)" />
-        <item index="1" class="java.lang.String" itemvalue="Python.question2" />
-        <item index="2" class="java.lang.String" itemvalue="Python.tp2" />
+      <list size="4">
+        <item index="0" class="java.lang.String" itemvalue="Python.question2c" />
+        <item index="1" class="java.lang.String" itemvalue="Python.question2 (1)" />
+        <item index="2" class="java.lang.String" itemvalue="Python.question2" />
+        <item index="3" class="java.lang.String" itemvalue="Python.tp2" />
       </list>
     </recent_temporary>
   </component>
@@ -533,14 +550,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TP3/question2c.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/TP3/question2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-473">
@@ -548,6 +557,14 @@
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TP3/question2c.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2484">
+          <caret line="148" column="30" lean-forward="true" selection-start-line="148" selection-start-column="30" selection-end-line="148" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>

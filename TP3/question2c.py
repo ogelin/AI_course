@@ -17,12 +17,20 @@ class DQN(nn.Module):
         super().__init__()
         self.fc1 = nn.Linear(4, 512)
         self.fc2 = nn.Linear(512, 512)
-        self.fc3 = nn.Linear(512, 2)
+        #self.fc3 = nn.Linear(512, 2)
+
+        self.fcV = nn.Linear(512, 2)
+        self.fcA = nn.Linear(512, 2)
 
     def forward(self, x):
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
-        q = self.fc3(x)
+        #q = self.fc3(x)
+
+        v = self.fcV(x)
+        a = self.fcA(x)
+        q = v + a
+
         return q
 
 #3 DQN.ipynb
@@ -65,7 +73,7 @@ class myAgent(object):
             batch_state = Variable(torch.cat(batch.state))
             batch_action = Variable(torch.cat(batch.action))
             batch_reward = Variable(torch.cat(batch.reward))
-            print(batch_reward)
+            #print(batch_reward)
             batch_next_state = Variable(torch.cat(batch.next_state))
             batch_done = Variable(torch.cat(batch.done))
 

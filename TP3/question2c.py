@@ -73,8 +73,6 @@ class myAgent(object):
             batch_state = Variable(torch.cat(batch.state))
             batch_action = Variable(torch.cat(batch.action))
             batch_reward = Variable(torch.cat(batch.reward))
-            #print(batch_reward)
-            batch_next_state = Variable(torch.cat(batch.next_state))
             batch_done = Variable(torch.cat(batch.done))
 
             current_actions = self.Q(batch_state)
@@ -157,4 +155,7 @@ for i in range(5000):
         agent.backward(batch)
 
 pd.DataFrame(rewards).rolling(50, center=False).mean().plot()
+plt.title("Total rewards over time (with advantage function)")
+plt.xlabel("Epoch")
+plt.ylabel("Reward")
 plt.show()

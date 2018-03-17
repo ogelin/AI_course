@@ -80,7 +80,7 @@ class myAgent(object):
 
             expected_state_action_values = next_state_action_values * self.gamma * mask + batch_reward
 
-            loss = F.l1_loss(current_q_values, expected_state_action_values)
+            loss = F.smooth_l1_loss(current_q_values, expected_state_action_values)
 
             self.optimizer.zero_grad()
 
